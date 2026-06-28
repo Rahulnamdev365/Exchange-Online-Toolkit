@@ -48,8 +48,7 @@ function Show-MainMenu
 
             '5'
             {
-                Write-Host ""
-                Write-Host "Feature coming soon..." -ForegroundColor Yellow
+                Show-SecurityMenu
             }
 
             '6'
