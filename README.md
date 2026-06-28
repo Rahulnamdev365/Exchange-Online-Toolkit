@@ -1,2 +1,17 @@
-# Exchange-Online-Toolkit
-Enterprise PowerShell toolkit for Microsoft Exchange Online administration, reporting and health assessments.
+# Exchange Online Toolkit
+
+## About
+
+## Current Project
+
+## Features
+
+## Requirements
+
+## Repository Structure
+
+## Screenshots
+
+## Roadmap
+
+## License
