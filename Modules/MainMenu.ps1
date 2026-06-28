@@ -33,19 +33,17 @@ function Show-MainMenu
 
             '2'
             {
-            Show-OrganizationMenu
+                Show-OrganizationMenu
             }
 
             '3'
             {
-                Write-Host ""
-                Write-Host "Feature coming soon..." -ForegroundColor Yellow
+                Show-MailboxMenu
             }
 
             '4'
             {
-                Write-Host ""
-                Write-Host "Feature coming soon..." -ForegroundColor Yellow
+                Show-TransportMenu
             }
 
             '5'
@@ -56,8 +54,7 @@ function Show-MainMenu
 
             '6'
             {
-                Write-Host ""
-                Write-Host "Feature coming soon..." -ForegroundColor Yellow
+                Show-PermissionsMenu
             }
 
             '7'

@@ -1,35 +1,32 @@
-function Invoke-MailboxForwardingReport
+function Invoke-SendOnBehalfReport
 {
     Clear-Host
 
     Write-Host ""
     Write-Host "==============================================================" -ForegroundColor Cyan
-    Write-Host "                  MAILBOX FORWARDING REPORT" -ForegroundColor Green
+    Write-Host "             SEND ON BEHALF PERMISSIONS REPORT" -ForegroundColor Green
     Write-Host "==============================================================" -ForegroundColor Cyan
     Write-Host ""
 
     try
     {
-        $Forwarding = Get-EXOMailbox -ResultSize Unlimited |
+        $Permissions = Get-EXOMailbox -ResultSize Unlimited |
         Where-Object {
-            $_.ForwardingAddress -or
-            $_.ForwardingSmtpAddress
+            $_.GrantSendOnBehalfTo.Count -gt 0
         } |
         Select-Object DisplayName,
                       PrimarySmtpAddress,
-                      ForwardingAddress,
-                      ForwardingSmtpAddress,
-                      DeliverToMailboxAndForward
+                      GrantSendOnBehalfTo
 
-        if ($Forwarding.Count -eq 0)
+        if (-not $Permissions)
         {
             Write-Host ""
-            Write-Host "No mailbox forwarding configured." -ForegroundColor Yellow
+            Write-Host "No Send On Behalf permissions found." -ForegroundColor Yellow
             Read-Host "Press ENTER to continue"
             return
         }
 
-        $Forwarding | Format-Table -AutoSize
+        $Permissions | Format-Table -Wrap -AutoSize
 
         Write-Host ""
         Write-Host "1. Export to CSV"
@@ -40,8 +37,8 @@ function Invoke-MailboxForwardingReport
         if ($Choice -eq '1')
         {
             Export-ToolkitReport `
-                -ReportName "MailboxForwarding" `
-                -Data $Forwarding
+                -ReportName "SendOnBehalfPermissions" `
+                -Data $Permissions
 
             Read-Host "Press ENTER to continue"
         }
@@ -49,7 +46,7 @@ function Invoke-MailboxForwardingReport
     catch
     {
         Write-Host ""
-        Write-Host "Unable to retrieve mailbox forwarding." -ForegroundColor Red
+        Write-Host "Unable to retrieve Send On Behalf permissions." -ForegroundColor Red
         Write-Host $_.Exception.Message -ForegroundColor Yellow
 
         Read-Host "Press ENTER"

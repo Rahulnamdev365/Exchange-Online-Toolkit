@@ -1,22 +1,30 @@
-function Invoke-SharedMailboxesReport
+function Invoke-MailFlowRulesReport
 {
     Clear-Host
 
     Write-Host ""
     Write-Host "==============================================================" -ForegroundColor Cyan
-    Write-Host "                  SHARED MAILBOXES REPORT" -ForegroundColor Green
+    Write-Host "                  MAIL FLOW RULES REPORT" -ForegroundColor Green
     Write-Host "==============================================================" -ForegroundColor Cyan
     Write-Host ""
 
     try
     {
-        $Mailboxes = Get-EXOMailbox -RecipientTypeDetails SharedMailbox -ResultSize Unlimited |
-        Select-Object DisplayName,
-                      PrimarySmtpAddress,
-                      Alias,
-                      WhenCreated
+        $Rules = Get-TransportRule |
+        Select-Object Name,
+                      State,
+                      Mode,
+                      Priority
 
-        $Mailboxes | Format-Table -AutoSize
+        if (-not $Rules)
+        {
+            Write-Host ""
+            Write-Host "No transport rules found." -ForegroundColor Yellow
+            Read-Host "Press ENTER"
+            return
+        }
+
+        $Rules | Format-Table -AutoSize
 
         Write-Host ""
         Write-Host "1. Export to CSV"
@@ -27,8 +35,8 @@ function Invoke-SharedMailboxesReport
         if ($Choice -eq '1')
         {
             Export-ToolkitReport `
-                -ReportName "SharedMailboxes" `
-                -Data $Mailboxes
+                -ReportName "MailFlowRules" `
+                -Data $Rules
 
             Read-Host "Press ENTER to continue"
         }
@@ -36,7 +44,7 @@ function Invoke-SharedMailboxesReport
     catch
     {
         Write-Host ""
-        Write-Host "Unable to retrieve shared mailboxes." -ForegroundColor Red
+        Write-Host "Unable to retrieve Mail Flow Rules." -ForegroundColor Red
         Write-Host $_.Exception.Message -ForegroundColor Yellow
 
         Read-Host "Press ENTER"
