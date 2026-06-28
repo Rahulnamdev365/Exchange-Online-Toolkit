@@ -1,0 +1,20 @@
+# Visual Studio Code
+.vscode/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs
+Logs/
+*.log
+
+# Sample Output
+SampleOutput/*.txt
+
+# Temporary files
+*.tmp
+*.bak
+
+# PowerShell history
+ConsoleHost_history.txt

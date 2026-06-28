@@ -59,12 +59,6 @@ function Show-MainMenu
             '7'
             {
                 Write-Host ""
-                Write-Host "Feature coming soon..." -ForegroundColor Yellow
-            }
-
-            '8'
-            {
-                Write-Host ""
                 Write-Host "Goodbye!" -ForegroundColor Green
                 break
             }
